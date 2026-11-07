@@ -4,12 +4,12 @@ import * as React from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-// Penny Pal's calm, ADHD-friendly theme: soft green, gentle rounding.
+// Penny Pal's calm, ADHD-friendly theme: soft lavender, gentle rounding.
 const theme = createTheme({
   palette: {
-    primary: { main: "#2e7d5b" },
-    secondary: { main: "#5b8def" },
-    background: { default: "#f7faf8" },
+    primary: { main: "#5f4b8b" },
+    secondary: { main: "#8d7bb8" },
+    background: { default: "#f6f4fb" },
   },
   shape: { borderRadius: 12 },
   typography: {
