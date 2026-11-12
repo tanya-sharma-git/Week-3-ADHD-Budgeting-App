@@ -118,13 +118,13 @@ export default function BudgetScreen({
           component="h1"
           fontWeight={700}
           color="primary"
-          textAlign="center"
+          sx={{ textAlign: "center" }}
         >
           {firstName ? `Hi, ${firstName}` : "Your budget"}
         </Typography>
 
         {savedBudget !== null && !editing ? (
-          <Stack spacing={1.5} alignItems="center">
+          <Stack spacing={1.5} sx={{ alignItems: "center" }}>
             <Typography variant="h6" color="text.secondary">
               This week
             </Typography>
@@ -146,7 +146,7 @@ export default function BudgetScreen({
           </Stack>
         ) : (
           <Stack spacing={2}>
-            <Typography color="text.secondary" textAlign="center">
+            <Typography color="text.secondary" sx={{ textAlign: "center" }}>
               Set your monthly budget: the amount you plan to spend each month.
             </Typography>
 
@@ -219,7 +219,7 @@ export default function BudgetScreen({
           </Stack>
         )}
 
-        <Box textAlign="center" mt={4}>
+        <Box sx={{ textAlign: "center", mt: 4 }}>
           <Button variant="text" color="inherit" onClick={handleSignOut}>
             Sign out
           </Button>
