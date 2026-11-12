@@ -22,8 +22,9 @@ export default function Onboarding({ onDone }: { onDone: () => void }) {
           Welcome to Penny Pal
         </Typography>
         <Typography variant="h6" color="text.secondary">
-          Set your monthly budget and Penny Pal does the rest: it shows you one
-          number, what's left to spend this week. You can change it anytime.
+          Budgeting apps can be a lot. Penny Pal is one number: what's left to
+          spend this week. Set your monthly budget to get yours, and change it
+          anytime.
         </Typography>
         <Stack direction="row" spacing={2}>
           <Button variant="contained" size="large" onClick={onDone}>
