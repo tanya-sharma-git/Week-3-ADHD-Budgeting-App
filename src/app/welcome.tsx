@@ -44,8 +44,8 @@ export default function Welcome({ authError }: { authError: boolean }) {
 
         {authError && (
           <Alert severity="info" sx={{ textAlign: "left" }}>
-            No problem, that did not go through. You can try again whenever you
-            are ready.
+            No problem, that didn't go through. You can try again whenever
+            you're ready.
           </Alert>
         )}
 
@@ -66,7 +66,7 @@ export default function Welcome({ authError }: { authError: boolean }) {
         </Typography>
 
         <Typography variant="body2" color="text.secondary">
-          Google sign-in is the only way in for now. Do not have a Google
+          Google sign-in is the only way in for now. Don't have a Google
           account? You can{" "}
           <Link
             href="https://accounts.google.com/signup"

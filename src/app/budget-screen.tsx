@@ -106,7 +106,7 @@ export default function BudgetScreen({
               ${savedBudget.toLocaleString()}
             </Typography>
             <Typography color="text.secondary">
-              That is about ${weeklyFrom(savedBudget).toLocaleString()} a week.
+              That's about ${weeklyFrom(savedBudget).toLocaleString()} a week.
             </Typography>
             <Button
               variant="outlined"
@@ -165,7 +165,7 @@ export default function BudgetScreen({
                         Worth).
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
-                        It is a suggestion, not a limit. Change it however you
+                        It's a suggestion, not a limit. Change it however you
                         like.
                       </Typography>
                     </Box>

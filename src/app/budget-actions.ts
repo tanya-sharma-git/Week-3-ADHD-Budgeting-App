@@ -22,7 +22,7 @@ export async function saveBudget(
   const {
     data: { user },
   } = await supabase.auth.getUser();
-  if (!user) return { error: "You are not signed in." };
+  if (!user) return { error: "You're not signed in." };
 
   const month = firstOfThisMonth();
 
