@@ -84,7 +84,6 @@ export default function HomeScreen({
           <Typography
             variant="h5"
             component="h1"
-            fontWeight={700}
             color="primary"
           >
             {firstName ? `Hi, ${firstName}` : "Penny Pal"}
@@ -95,47 +94,82 @@ export default function HomeScreen({
         </Box>
 
         {thisWeek !== null && left !== null && (
-          <Stack spacing={1} sx={{ alignItems: "center" }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
-              <Typography variant="h6" color="text.secondary">
-                Left to spend this week
-              </Typography>
-              <Tooltip
-                enterTouchDelay={0}
-                title="Resets every Monday. Each day gets an equal slice of your budget, so a shorter week gets less, and it all adds up."
-              >
-                <IconButton
-                  size="small"
-                  aria-label="How Left to spend is calculated"
+          <Box
+            sx={{
+              bgcolor: "#eaf3de",
+              border: "1.5px solid #161616",
+              borderRadius: "16px",
+              p: 3,
+            }}
+          >
+            <Stack spacing={1} sx={{ alignItems: "center" }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                <Box
+                  sx={{
+                    bgcolor: "#cecbf6",
+                    border: "1.5px solid #161616",
+                    borderRadius: 999,
+                    px: 1.5,
+                    py: 0.25,
+                  }}
                 >
-                  <InfoOutlinedIcon fontSize="small" />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            {left >= 0 ? (
-              <>
-                <Typography variant="h2" fontWeight={700} color="primary">
-                  ${left.toLocaleString()}
-                </Typography>
-                <Typography color="text.secondary" sx={{ textAlign: "center" }}>
-                  You've spent ${spent.toLocaleString()} of your $
-                  {thisWeek.toLocaleString()} this week.
-                </Typography>
-              </>
-            ) : (
-              <>
-                <Typography variant="h2" fontWeight={700}>
-                  $0
-                </Typography>
-                <Typography color="text.secondary" sx={{ textAlign: "center" }}>
-                  You've spent ${spent.toLocaleString()}, that's $
-                  {Math.abs(left).toLocaleString()} over your $
-                  {thisWeek.toLocaleString()} this week. Next week resets to $
-                  {thisWeek.toLocaleString()}.
-                </Typography>
-              </>
-            )}
-          </Stack>
+                  <Typography
+                    sx={{ fontWeight: 700, fontSize: 12, letterSpacing: 1 }}
+                  >
+                    THIS WEEK
+                  </Typography>
+                </Box>
+                <Tooltip
+                  enterTouchDelay={0}
+                  title="Resets every Monday. Each day gets an equal slice of your budget, so a shorter week gets less, and it all adds up."
+                >
+                  <IconButton
+                    size="small"
+                    aria-label="How Left to spend is calculated"
+                  >
+                    <InfoOutlinedIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              {left >= 0 ? (
+                <>
+                  <Typography variant="h2">
+                    ${left.toLocaleString()}
+                  </Typography>
+                  <Typography sx={{ textAlign: "center" }}>
+                    left to spend this week
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ textAlign: "center" }}
+                  >
+                    You've spent ${spent.toLocaleString()} of your $
+                    {thisWeek.toLocaleString()} this week.
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <Typography variant="h2">
+                    $0
+                  </Typography>
+                  <Typography sx={{ textAlign: "center" }}>
+                    left to spend this week
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ textAlign: "center" }}
+                  >
+                    You've spent ${spent.toLocaleString()}, that's $
+                    {Math.abs(left).toLocaleString()} over your $
+                    {thisWeek.toLocaleString()} this week. Next week resets to $
+                    {thisWeek.toLocaleString()}.
+                  </Typography>
+                </>
+              )}
+            </Stack>
+          </Box>
         )}
 
         <BudgetCard budget={budget} onBudgetChange={setBudget} />

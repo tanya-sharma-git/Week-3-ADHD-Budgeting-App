@@ -35,7 +35,7 @@ export default function Welcome({ authError }: { authError: boolean }) {
           textAlign: "center",
         }}
       >
-        <Typography variant="h3" component="h1" fontWeight={700} color="primary">
+        <Typography variant="h3" component="h1" color="primary">
           Penny Pal
         </Typography>
         <Typography variant="h6" color="text.secondary">

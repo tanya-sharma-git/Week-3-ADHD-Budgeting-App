@@ -18,7 +18,7 @@ export default function Onboarding({ onDone }: { onDone: () => void }) {
           py: 6,
         }}
       >
-        <Typography variant="h3" component="h1" fontWeight={700} color="primary">
+        <Typography variant="h3" component="h1" color="primary">
           Welcome to Penny Pal
         </Typography>
         <Typography variant="h6" color="text.secondary">

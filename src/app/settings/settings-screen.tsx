@@ -86,7 +86,7 @@ export default function SettingsScreen({
           <IconButton component={Link} href="/" aria-label="Back to home">
             <ArrowBackIcon />
           </IconButton>
-          <Typography variant="h5" component="h1" fontWeight={700}>
+          <Typography variant="h5" component="h1">
             Settings
           </Typography>
         </Box>
