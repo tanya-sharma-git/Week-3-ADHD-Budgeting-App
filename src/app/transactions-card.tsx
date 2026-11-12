@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   addTransaction,
   updateTransaction,
@@ -20,11 +20,12 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 export default function TransactionsCard({
-  initialTransactions,
+  transactions,
+  onTransactionsChange,
 }: {
-  initialTransactions: Transaction[];
+  transactions: Transaction[];
+  onTransactionsChange: (next: Transaction[]) => void;
 }) {
-  const [txs, setTxs] = useState<Transaction[]>(initialTransactions);
   const [amount, setAmount] = useState("");
   const [type, setType] = useState<"income" | "expense">("expense");
   const [category, setCategory] = useState<string>(UNCATEGORIZED);
@@ -32,14 +33,6 @@ export default function TransactionsCard({
   const [editingId, setEditingId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
-
-  const spent = useMemo(
-    () =>
-      txs
-        .filter((t) => t.type === "expense")
-        .reduce((sum, t) => sum + Number(t.amount), 0),
-    [txs],
-  );
 
   function resetForm() {
     setAmount("");
@@ -74,9 +67,11 @@ export default function TransactionsCard({
     }
     const saved = result.transaction;
     if (editingId) {
-      setTxs((prev) => prev.map((t) => (t.id === editingId ? saved : t)));
+      onTransactionsChange(
+        transactions.map((t) => (t.id === editingId ? saved : t)),
+      );
     } else {
-      setTxs((prev) => [saved, ...prev]);
+      onTransactionsChange([saved, ...transactions]);
     }
     resetForm();
   }
@@ -91,12 +86,12 @@ export default function TransactionsCard({
   }
 
   async function handleDelete(id: string) {
-    const previous = txs;
-    setTxs((prev) => prev.filter((t) => t.id !== id));
+    const previous = transactions;
+    onTransactionsChange(transactions.filter((t) => t.id !== id));
     if (editingId === id) resetForm();
     const result = await deleteTransaction(id);
     if (result.error) {
-      setTxs(previous);
+      onTransactionsChange(previous);
       setError(result.error);
     }
   }
@@ -104,9 +99,6 @@ export default function TransactionsCard({
   return (
     <Stack spacing={2}>
       <Typography variant="h6">This week's spending</Typography>
-      <Typography color="text.secondary">
-        Spent this week: ${spent.toLocaleString()}
-      </Typography>
 
       <Box sx={{ p: 2, borderRadius: 2, bgcolor: "action.hover" }}>
         <Stack spacing={2}>
@@ -175,13 +167,13 @@ export default function TransactionsCard({
         </Stack>
       </Box>
 
-      {txs.length === 0 ? (
+      {transactions.length === 0 ? (
         <Typography color="text.secondary">
           Nothing logged this week yet.
         </Typography>
       ) : (
         <Stack spacing={1}>
-          {txs.map((t) => (
+          {transactions.map((t) => (
             <Box
               key={t.id}
               sx={{

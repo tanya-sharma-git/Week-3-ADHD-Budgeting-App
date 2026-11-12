@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { saveBudget } from "./budget-actions";
-import { thisWeekBudget } from "@/lib/dates";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -11,15 +10,14 @@ import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 
 export default function BudgetCard({
-  initialBudget,
+  budget,
+  onBudgetChange,
 }: {
-  initialBudget: number | null;
+  budget: number | null;
+  onBudgetChange: (amount: number) => void;
 }) {
-  const [savedBudget, setSavedBudget] = useState<number | null>(initialBudget);
-  const [editing, setEditing] = useState(initialBudget === null);
-  const [amount, setAmount] = useState(
-    initialBudget !== null ? String(initialBudget) : "",
-  );
+  const [editing, setEditing] = useState(budget === null);
+  const [amount, setAmount] = useState(budget !== null ? String(budget) : "");
   const [showHelp, setShowHelp] = useState(false);
   const [income, setIncome] = useState("");
   const [suggestion, setSuggestion] = useState<number | null>(null);
@@ -51,34 +49,35 @@ export default function BudgetCard({
       setError(result.error);
       return;
     }
-    setSavedBudget(num);
+    onBudgetChange(num);
     setEditing(false);
     setShowHelp(false);
     setError(null);
   }
 
-  if (savedBudget !== null && !editing) {
+  if (budget !== null && !editing) {
     return (
-      <Stack spacing={1.5} sx={{ alignItems: "center" }}>
-        <Typography variant="h6" color="text.secondary">
-          This week
-        </Typography>
-        <Typography variant="h2" fontWeight={700} color="primary">
-          ${thisWeekBudget(savedBudget).toLocaleString()}
-        </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 1,
+        }}
+      >
         <Typography color="text.secondary">
-          of your ${savedBudget.toLocaleString()} monthly budget
+          Monthly budget: ${budget.toLocaleString()}
         </Typography>
         <Button
-          variant="outlined"
+          variant="text"
           onClick={() => {
             setEditing(true);
-            setAmount(String(savedBudget));
+            setAmount(String(budget));
           }}
         >
-          Edit budget
+          Edit
         </Button>
-      </Stack>
+      </Box>
     );
   }
 
@@ -140,7 +139,7 @@ export default function BudgetCard({
         <Button variant="contained" onClick={handleSave} disabled={saving}>
           {saving ? "Saving..." : "Save"}
         </Button>
-        {savedBudget !== null && (
+        {budget !== null && (
           <Button
             variant="text"
             onClick={() => {
