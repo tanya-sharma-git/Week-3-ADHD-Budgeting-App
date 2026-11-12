@@ -12,9 +12,35 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Alert from "@mui/material/Alert";
 
-// A simple weekly figure from a monthly amount (12 months / 52 weeks).
-function weeklyFrom(monthly: number) {
-  return Math.round((monthly * 12) / 52);
+// This week's share of the monthly budget, split by days so partial weeks are
+// proportional and every week adds up to the monthly total. Weeks start Monday.
+function thisWeekBudget(monthly: number, now = new Date()): number {
+  const day = now.getDay(); // 0 = Sunday ... 6 = Saturday
+  const daysSinceMonday = (day + 6) % 7;
+  const weekStart = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate() - daysSinceMonday,
+  );
+  const weekEnd = new Date(
+    weekStart.getFullYear(),
+    weekStart.getMonth(),
+    weekStart.getDate() + 6,
+  );
+
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  const daysInMonth = monthEnd.getDate();
+
+  const overlapStart = weekStart > monthStart ? weekStart : monthStart;
+  const overlapEnd = weekEnd < monthEnd ? weekEnd : monthEnd;
+  const msPerDay = 24 * 60 * 60 * 1000;
+  const daysThisWeekInMonth =
+    overlapEnd >= overlapStart
+      ? Math.round((overlapEnd.getTime() - overlapStart.getTime()) / msPerDay) + 1
+      : 0;
+
+  return Math.round((monthly * daysThisWeekInMonth) / daysInMonth);
 }
 
 export default function BudgetScreen({
@@ -98,15 +124,15 @@ export default function BudgetScreen({
         </Typography>
 
         {savedBudget !== null && !editing ? (
-          <Stack spacing={2} alignItems="center">
+          <Stack spacing={1.5} alignItems="center">
             <Typography variant="h6" color="text.secondary">
-              Monthly budget
+              This week
             </Typography>
-            <Typography variant="h3" fontWeight={700}>
-              ${savedBudget.toLocaleString()}
+            <Typography variant="h2" fontWeight={700} color="primary">
+              ${thisWeekBudget(savedBudget).toLocaleString()}
             </Typography>
             <Typography color="text.secondary">
-              That's about ${weeklyFrom(savedBudget).toLocaleString()} a week.
+              of your ${savedBudget.toLocaleString()} monthly budget
             </Typography>
             <Button
               variant="outlined"
