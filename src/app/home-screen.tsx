@@ -1,12 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import type { Transaction } from "./transaction-actions";
 import { thisWeekBudget } from "@/lib/dates";
 import BudgetCard from "./budget-card";
 import TransactionsCard from "./transactions-card";
 import AutoSignOut from "./auto-sign-out";
+import Onboarding from "./onboarding";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -38,6 +39,34 @@ export default function HomeScreen({
     [txs],
   );
   const left = thisWeek !== null ? thisWeek - spent : null;
+
+  const [showWelcome, setShowWelcome] = useState(false);
+  useEffect(() => {
+    if (budget !== null) {
+      setShowWelcome(false);
+      return;
+    }
+    let seen = false;
+    try {
+      seen = localStorage.getItem("pennypal.seenOnboarding") === "yes";
+    } catch {
+      seen = false;
+    }
+    setShowWelcome(!seen);
+  }, [budget]);
+
+  function finishOnboarding() {
+    try {
+      localStorage.setItem("pennypal.seenOnboarding", "yes");
+    } catch {
+      // Browser storage unavailable; onboarding just won't be remembered.
+    }
+    setShowWelcome(false);
+  }
+
+  if (showWelcome) {
+    return <Onboarding onDone={finishOnboarding} />;
+  }
 
   return (
     <Container maxWidth="sm">

@@ -8,6 +8,7 @@ adds to it. Follow it on every screen and message. Add new rules as they come up
   "that is", "you are", "do not". It reads warmer and more human.
 - **No em dashes.** Use commas, colons, parentheses, or separate sentences.
 - **Plain language, no jargon.** If a term might be unfamiliar, use a simpler word.
+- **No directional words** (above, below, left, right). They assume a visual layout and aren't accessibility-friendly (screen readers read in a different order, and layouts reflow). Refer to things by name instead.
 
 ## Tone
 - **Show, don't tell.** Don't use mood adjectives like "calm", "gentle",

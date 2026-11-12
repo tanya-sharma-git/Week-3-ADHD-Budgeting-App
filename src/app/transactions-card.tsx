@@ -169,7 +169,7 @@ export default function TransactionsCard({
 
       {transactions.length === 0 ? (
         <Typography color="text.secondary">
-          Nothing logged this week yet.
+          Add your first entry to start tracking your spending.
         </Typography>
       ) : (
         <Stack spacing={1}>
