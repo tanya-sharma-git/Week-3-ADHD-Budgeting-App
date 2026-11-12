@@ -6,6 +6,7 @@ import type { Transaction } from "./transaction-actions";
 import { thisWeekBudget } from "@/lib/dates";
 import BudgetCard from "./budget-card";
 import TransactionsCard from "./transactions-card";
+import AutoSignOut from "./auto-sign-out";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -40,6 +41,7 @@ export default function HomeScreen({
 
   return (
     <Container maxWidth="sm">
+      <AutoSignOut />
       <Stack spacing={4} sx={{ py: 6 }}>
         <Box
           sx={{

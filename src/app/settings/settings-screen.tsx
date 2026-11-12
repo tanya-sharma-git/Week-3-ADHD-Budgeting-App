@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { deleteMyData } from "../data-actions";
+import AutoSignOut, { AUTO_SIGNOUT_KEY } from "../auto-sign-out";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -13,6 +14,8 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
 import Alert from "@mui/material/Alert";
+import Switch from "@mui/material/Switch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -36,6 +39,24 @@ export default function SettingsScreen({
   const [deleting, setDeleting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [justDeleted, setJustDeleted] = useState(false);
+  const [autoSignOut, setAutoSignOut] = useState(false);
+
+  useEffect(() => {
+    try {
+      setAutoSignOut(localStorage.getItem(AUTO_SIGNOUT_KEY) === "on");
+    } catch {
+      setAutoSignOut(false);
+    }
+  }, []);
+
+  function toggleAutoSignOut(on: boolean) {
+    setAutoSignOut(on);
+    try {
+      localStorage.setItem(AUTO_SIGNOUT_KEY, on ? "on" : "off");
+    } catch {
+      // Browser storage unavailable; the toggle just won't persist.
+    }
+  }
 
   async function handleSignOut() {
     const supabase = createClient();
@@ -59,6 +80,7 @@ export default function SettingsScreen({
 
   return (
     <Container maxWidth="sm">
+      <AutoSignOut />
       <Stack spacing={3} sx={{ py: 6 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <IconButton component={Link} href="/" aria-label="Back to home">
@@ -115,10 +137,33 @@ export default function SettingsScreen({
         <Divider />
 
         <Box>
-          <Typography variant="h6">Security and privacy</Typography>
-          <Typography color="text.secondary">
-            How your data is protected, in plain language. We'll build this next.
+          <Typography variant="h6" gutterBottom>
+            Security and privacy
           </Typography>
+          <Stack spacing={0.5} sx={{ mb: 2 }}>
+            <Typography color="text.secondary">
+              Your budget and entries are encrypted where they're stored.
+            </Typography>
+            <Typography color="text.secondary">
+              Everything travels over a secure (HTTPS) connection.
+            </Typography>
+            <Typography color="text.secondary">
+              You sign in with Google, so Penny Pal never sees or stores a
+              password.
+            </Typography>
+            <Typography color="text.secondary">
+              Penny Pal never asks for or stores your bank passwords.
+            </Typography>
+          </Stack>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={autoSignOut}
+                onChange={(e) => toggleAutoSignOut(e.target.checked)}
+              />
+            }
+            label="Sign me out after 15 minutes of inactivity"
+          />
         </Box>
 
         <Divider />
