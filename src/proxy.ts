@@ -1,0 +1,15 @@
+import { type NextRequest } from "next/server";
+import { updateSession } from "@/lib/supabase/middleware";
+
+// Next.js 16 renamed the "middleware" convention to "proxy".
+// This runs on every request to keep the login session fresh.
+export async function proxy(request: NextRequest) {
+  return await updateSession(request);
+}
+
+export const config = {
+  matcher: [
+    // Run on all pages except static files and images.
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  ],
+};

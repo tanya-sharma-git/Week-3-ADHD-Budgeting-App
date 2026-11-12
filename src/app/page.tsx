@@ -1,38 +1,23 @@
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import { createClient } from "@/lib/supabase/server";
+import Welcome from "./welcome";
+import SignedInHome from "./signed-in-home";
 
-export default function Home() {
-  return (
-    <Container maxWidth="sm">
-      <Box
-        sx={{
-          minHeight: "100dvh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          gap: 3,
-          py: 8,
-          textAlign: "center",
-        }}
-      >
-        <Typography variant="h3" component="h1" fontWeight={700} color="primary">
-          Penny Pal
-        </Typography>
-        <Typography variant="h6" color="text.secondary">
-          Budgeting that works with your ADHD brain, not against it.
-        </Typography>
-        <Typography variant="body1" color="text.secondary">
-          Your app&apos;s starter is up and running. We&apos;ll build the real
-          screens from here.
-        </Typography>
-        <Box>
-          <Button variant="contained" size="large" disabled>
-            Coming soon
-          </Button>
-        </Box>
-      </Box>
-    </Container>
-  );
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ auth?: string }>;
+}) {
+  const { auth } = await searchParams;
+
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return <Welcome authError={auth === "error"} />;
+  }
+
+  const name = (user.user_metadata?.full_name as string | undefined) ?? null;
+  return <SignedInHome email={user.email ?? ""} name={name} />;
 }
