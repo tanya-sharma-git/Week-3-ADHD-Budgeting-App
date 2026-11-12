@@ -14,7 +14,9 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Divider from "@mui/material/Divider";
+import Tooltip from "@mui/material/Tooltip";
 import SettingsIcon from "@mui/icons-material/Settings";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 export default function HomeScreen({
   name,
@@ -94,9 +96,22 @@ export default function HomeScreen({
 
         {thisWeek !== null && left !== null && (
           <Stack spacing={1} sx={{ alignItems: "center" }}>
-            <Typography variant="h6" color="text.secondary">
-              Left to spend this week
-            </Typography>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+              <Typography variant="h6" color="text.secondary">
+                Left to spend this week
+              </Typography>
+              <Tooltip
+                enterTouchDelay={0}
+                title="This resets every Monday. If a month doesn't split into even weeks, each week gets a fair share by days, so the weeks always add up to your monthly budget."
+              >
+                <IconButton
+                  size="small"
+                  aria-label="How Left to spend is calculated"
+                >
+                  <InfoOutlinedIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+            </Box>
             {left >= 0 ? (
               <>
                 <Typography variant="h2" fontWeight={700} color="primary">

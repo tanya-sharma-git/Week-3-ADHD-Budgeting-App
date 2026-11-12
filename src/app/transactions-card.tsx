@@ -100,6 +100,55 @@ export default function TransactionsCard({
     <Stack spacing={2}>
       <Typography variant="h6">This week's spending</Typography>
 
+      {transactions.length === 0 ? (
+        <Typography color="text.secondary">
+          Add your first entry to start tracking your spending.
+        </Typography>
+      ) : (
+        <Stack spacing={1}>
+          {transactions.map((t) => (
+            <Box
+              key={t.id}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                gap: 1,
+                py: 1,
+                borderBottom: "1px solid",
+                borderColor: "divider",
+              }}
+            >
+              <Box>
+                <Typography>
+                  {t.type === "income" ? "+" : "-"}$
+                  {Number(t.amount).toLocaleString()}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {t.type === "income"
+                    ? "Income"
+                    : (t.category ?? UNCATEGORIZED)}{" "}
+                  · {t.occurred_on}
+                </Typography>
+              </Box>
+              <Stack direction="row" spacing={1}>
+                <Button size="small" variant="text" onClick={() => startEdit(t)}>
+                  Edit
+                </Button>
+                <Button
+                  size="small"
+                  variant="text"
+                  color="error"
+                  onClick={() => handleDelete(t.id)}
+                >
+                  Delete
+                </Button>
+              </Stack>
+            </Box>
+          ))}
+        </Stack>
+      )}
+
       <Box sx={{ p: 2, borderRadius: 2, bgcolor: "action.hover" }}>
         <Stack spacing={2}>
           <Typography variant="subtitle2">
@@ -166,55 +215,6 @@ export default function TransactionsCard({
           </Stack>
         </Stack>
       </Box>
-
-      {transactions.length === 0 ? (
-        <Typography color="text.secondary">
-          Add your first entry to start tracking your spending.
-        </Typography>
-      ) : (
-        <Stack spacing={1}>
-          {transactions.map((t) => (
-            <Box
-              key={t.id}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                gap: 1,
-                py: 1,
-                borderBottom: "1px solid",
-                borderColor: "divider",
-              }}
-            >
-              <Box>
-                <Typography>
-                  {t.type === "income" ? "+" : "-"}$
-                  {Number(t.amount).toLocaleString()}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {t.type === "income"
-                    ? "Income"
-                    : (t.category ?? UNCATEGORIZED)}{" "}
-                  · {t.occurred_on}
-                </Typography>
-              </Box>
-              <Stack direction="row" spacing={1}>
-                <Button size="small" variant="text" onClick={() => startEdit(t)}>
-                  Edit
-                </Button>
-                <Button
-                  size="small"
-                  variant="text"
-                  color="error"
-                  onClick={() => handleDelete(t.id)}
-                >
-                  Delete
-                </Button>
-              </Stack>
-            </Box>
-          ))}
-        </Stack>
-      )}
     </Stack>
   );
 }
