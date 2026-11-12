@@ -102,7 +102,7 @@ export default function HomeScreen({
               </Typography>
               <Tooltip
                 enterTouchDelay={0}
-                title="This resets every Monday. If a month doesn't split into even weeks, each week gets a fair share by days, so the weeks always add up to your monthly budget."
+                title="Resets every Monday. Each day gets an equal slice of your budget, so a shorter week gets less, and it all adds up."
               >
                 <IconButton
                   size="small"
