@@ -110,10 +110,12 @@ Ticket: https://app.notion.com/p/40f71f8c85e081c08e43dfc2e6641fda
 **User story:** As someone with ADHD who needs to trust the app with money, I want to see
 and delete all my data, so that I stay in control.
 
+**MVP scope:** deletes all the user's data (budget, entries, profile) but keeps the login record. Full account deletion is a fast-follow (needs the Supabase service_role key, deferred).
+
 **Acceptance criteria:**
 - GIVEN I'm signed in, WHEN I open "My data", THEN I see everything stored about me in plain words.
-- GIVEN I choose to delete my account, WHEN I confirm, THEN all my data is removed.
-- GIVEN I start deleting my account, WHEN I cancel at the confirmation step, THEN nothing is deleted AND my data is unchanged.
+- GIVEN I choose to delete my data, WHEN I confirm, THEN all my data is removed.
+- GIVEN I start deleting my data, WHEN I cancel at the confirmation step, THEN nothing is deleted AND my data is unchanged.
 
 ---
 
