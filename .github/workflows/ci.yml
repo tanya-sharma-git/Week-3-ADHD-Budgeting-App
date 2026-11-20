@@ -1,0 +1,38 @@
+# Penny Pal's CI pipeline.
+# GitHub Actions reads this file and runs the checks below automatically
+# on every push. If any check fails, the push is flagged with a red X.
+name: CI
+
+# WHEN to run: on every push to the repository.
+on: [push]
+
+jobs:
+  checks:                       # our one job, named "checks"
+    runs-on: ubuntu-latest      # the clean, temporary computer (the "runner")
+    steps:
+      # 1. Download Penny Pal onto the runner.
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      # 2. Put Node on the runner (Node is the program that runs the app's code).
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # 3. Install the project's tools (Vitest and the rest).
+      - name: Install tools
+        run: npm install --legacy-peer-deps
+
+      # 4. The checks, one station at a time:
+      - name: Lint (is the code clean?)
+        run: npm run lint
+
+      - name: Test (budget-math checks)
+        run: npm run test
+
+      - name: Skills gate-check
+        run: npm run check:skills
+
+      - name: Build (does the app still assemble?)
+        run: npm run build
